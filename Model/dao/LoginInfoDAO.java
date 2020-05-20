@@ -5,7 +5,7 @@
  */
 package Model.dao;
 
-import Model.to.RoomTypeTO;
+import Model.to.LoginInfoTO;
 import Utility.Errorhandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,17 +16,16 @@ import java.util.List;
  *
  * @author DELL
  */
-public class RoomTypeDAO extends DAO {
-    public boolean insertRecord(RoomTypeTO record){
+public class LoginInfoDAO extends DAO {
+    public boolean insertRecord(LoginInfoTO record){
         try{
-            String query="insert into Room_Type";
-            query +="(typeID,typename,chargesperday,description)";
-            query+="values(?,?,?,?)";
+            String query=" insert into Login_Info";
+            query +=" (rolename ,username ,password) ";
+            query+=" values(?,?,?)";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
-            stmt.setString(1,record.getTypeID());
-            stmt.setString(2,record.getTypename());
-            stmt.setFloat(3,record.getChargesperday());
-            stmt.setString(4,record.getDescription());
+            stmt.setString(1,record.getRolename());
+            stmt.setString(2,record.getUsername());
+            stmt.setString(3,record.getPassword());
             boolean result=stmt.executeUpdate()>0;
             stmt.close();
             return result;
@@ -36,16 +35,16 @@ public class RoomTypeDAO extends DAO {
             return false;
         }
     }
-     public boolean updateRecord(RoomTypeTO record){
+     public boolean updateRecord(LoginInfoTO record){
         try{
-            String query="update into Room_Type";
-            query +="set typename=?,chargesperday=?,description=?";
-            query+="where typeID=?";
+            String query=" update Login_Info";
+            query +=" set rolename=?,password=?,lastlogin = ?";
+            query+=" where username=?";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
-            stmt.setString(1,record.getTypeID());
-            stmt.setString(2,record.getTypename());
-            stmt.setFloat(3,record.getChargesperday());
-            stmt.setString(4,record.getDescription());
+            stmt.setString(1,record.getRolename());
+            stmt.setString(2,record.getPassword());
+            stmt.setTimestamp(3,record.getLastlogin());
+            stmt.setString(4,record.getUsername());
             boolean result=stmt.executeUpdate()>0;
             stmt.close();
             return result;
@@ -55,12 +54,12 @@ public class RoomTypeDAO extends DAO {
             return false;
         }
     }
-       public boolean deleteRecord(String typeID){
+       public boolean deleteRecord(String username){
         try{
-            String query="delete from Room_type";
-            query +="where typeID=?";
+            String query=" delete from Login_Info";
+            query +=" where username=?";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
-            stmt.setString(1,typeID);
+            stmt.setString(1,username);
             boolean result=stmt.executeUpdate()>0;
             stmt.close();
             return result;
@@ -70,21 +69,21 @@ public class RoomTypeDAO extends DAO {
             return false;
         }
     }
-       public RoomTypeTO getRecord(String typeID){
+       public LoginInfoTO getRecord(String username){
         try{
-            String query="select typeID,typename,chargesperday,description";
-            query +="from Room_Type";
-            query +="where typeID=?";
+            String query = " select username , rolename, password, lastlogin ";
+            query += " from Login_Info";
+            query += " where username =?";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
-            stmt.setString(1,typeID);
-            RoomTypeTO result = null;
+            stmt.setString(1, username);
+            LoginInfoTO result = null;
             ResultSet rs=stmt.executeQuery();
             if(rs.next()){
-                result = new RoomTypeTO();
-                result.setTypeID(rs.getString("typeID"));
-                result.setTypename(rs.getString("typename"));
-                result.setChargesperday(rs.getFloat("chargesperday"));
-                result.setDescription(rs.getString("description"));
+                result = new LoginInfoTO();
+                result.setUsername(rs.getString("username"));
+                result.setRolename(rs.getString("rolename"));
+                result.setPassword(rs.getString("password"));
+                result.setLastlogin(rs.getTimestamp("lastlogin"));
             }
             stmt.close();
             return result;
@@ -94,21 +93,21 @@ public class RoomTypeDAO extends DAO {
             return null;
         }
     }
-       public List<RoomTypeTO> getallRecord(){
+       public List<LoginInfoTO> getallRecord(){
         try{
-            String query = " select typeID , typename ,chargesperday ,description";
-            query += " from Room_Type ";
+            String query= "select username , rolename , password , lastlogin";
+            query += " from Login_Info";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
-            List<RoomTypeTO> result = null;
+            List<LoginInfoTO> result = null;
             ResultSet rs=stmt.executeQuery();
             if(rs.next()){
                 result = new ArrayList<>();
                 do{
-                    RoomTypeTO res = new RoomTypeTO();                
-                res.setTypeID(rs.getString("typeID"));
-                res.setTypename(rs.getString("typename"));
-                res.setChargesperday(rs.getFloat("chargesperday"));
-                res.setDescription(rs.getString("description"));
+                    LoginInfoTO res = new LoginInfoTO();                
+                res.setUsername(rs.getString("username"));
+                res.setRolename(rs.getString("rolename"));
+                res.setPassword(rs.getString("password"));
+                res.setLastlogin(rs.getTimestamp("lastlogin"));
                     result.add(res);}
                     while(rs.next());
             }

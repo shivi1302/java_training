@@ -93,8 +93,8 @@ public class CustomerInfoDAO extends DAO {
     }
        public List<CustomerInfoTO> getallRecord(){
         try{
-            String query="select customerid,customername,adhaarcard";
-            query +="from Customer_Info";
+            String query="select customerid , customername ,adhaarcard ";
+            query +=" from Customer_Info";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
             List<CustomerInfoTO> result = null;
             ResultSet rs=stmt.executeQuery();

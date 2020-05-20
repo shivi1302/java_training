@@ -102,8 +102,11 @@ public class EmployeeInfoDAO extends DAO {
     }
        public List<EmployeeInfoTO> getallRecord(){
         try{
-            String query="select empid,empName,adhaarcard,typeid,dateofjoining,dateofleaving";
-            query +="from Employee_Info";
+            String query="select employee_info.empid, employee_info.emptypeid,\n"
+                            +" employee_info.empname,employee_type.emptypename,employee_type.basicsalary,\n"
+                            +" employee_info.adhaarcard ,employee_info.dateofjoining ,employee_info.dateofleaving \n" 
+                            +" from employee_info join employee_type \n"
+                            +" on employee_info.emptypeid = employee_type.emptypeid";
             PreparedStatement stmt = DataConnection.prepareStatement(query);
             List<EmployeeInfoTO> result = null;
             ResultSet rs=stmt.executeQuery();
@@ -111,12 +114,13 @@ public class EmployeeInfoDAO extends DAO {
                 result = new ArrayList<>();
                 do{
                     EmployeeInfoTO res = new EmployeeInfoTO();                
-                   res.setEmpid(rs.getInt("empid"));
-                res.setEmpName(rs.getString("empName"));
-                res.setAdhaarcard(rs.getInt("adhaarcard"));
-                res.setEmptypeid(rs.getString("emptypeid"));
-                res.setDateofjoining(rs.getDate("dateofjoining"));
-                res.setDateofleaving(rs.getDate("dateofleaving"));
+                    res.setEmpid(rs.getInt("empid"));
+                    res.setEmpName(rs.getString("empName"));
+                    res.setAdhaarcard(rs.getInt("adhaarcard"));
+                    res.setEmptypeid(rs.getString("emptypeid"));
+                    res.setEmptypename(rs.getString("emptypename"));
+                    res.setDateofjoining(rs.getDate("dateofjoining"));
+                    res.setDateofleaving(rs.getDate("dateofleaving"));
                     result.add(res);}
                     while(rs.next());
             }

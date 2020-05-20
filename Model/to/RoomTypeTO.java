@@ -22,9 +22,7 @@ public class RoomTypeTO {
     public void setTypeID(String typeID) {
         this.typeID = typeID;
     }
-
     
-
     public String getTypename() {
         return typename;
     }
@@ -47,5 +45,9 @@ public class RoomTypeTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    @Override
+    public String toString(){
+        return typename+" Rs."+ chargesperday+" per day";
     }
 }

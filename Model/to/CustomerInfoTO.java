@@ -37,4 +37,7 @@ public class CustomerInfoTO {
     public void setCustomername(String customername) {
         this.customername = customername;
     }
+     public String toString(){
+        return customername;
+    }
 }

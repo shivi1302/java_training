@@ -18,7 +18,15 @@ public class EmployeeInfoTO {
     private String emptypeid;
     private Date dateofjoining;
     private Date dateofleaving;
+    private String emptypename;
 
+    public String getEmptypename() {
+        return emptypename;
+    }
+
+    public void setEmptypename(String emptypename) {
+        this.emptypename = emptypename;
+    }
     public String getEmptypeid() {
         return emptypeid;
     }

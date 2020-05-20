@@ -32,4 +32,18 @@ public class Validations {
         }catch(NumberFormatException ex){}
             return false;
     }
+    public static boolean onlyLetterAndSpace(String value){
+        if(value!=null){
+            value=value.trim();
+            for(int i=0;i<value.length();i++){
+                char ch=value.charAt(i);
+                if(Character.isLetter(ch)||Character.isWhitespace(ch)){
+                    
+                }else
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
 }
